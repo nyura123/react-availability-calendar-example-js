@@ -26,6 +26,7 @@ const App = () => {
   const [timeOfDayMode, setTimeOfDayMode] = useState("evening"); //"allDay" | "morning" | "evening" | "noon";
   const [initialDate, setInitialDate] = useState(new Date());
   const [calVersion, setCalVersion] = useState(1);
+  const [selectedDay, setSelectedDay] = useState(/*<Date | null>*/ null);
 
   const onAvailabilitySelected = (a /*: AvailabilityEvent*/) => {
     console.log("Availability slot selected!: ", a);
@@ -40,6 +41,7 @@ const App = () => {
   // for optional custom toolbar
   const onDaySelected = (day /*: Date | null */) => {
     setShowCustomToolBar(!!day);
+    setSelectedDay(day);
 
     // to restore the next time calVersion upates
     if (day) {
@@ -161,6 +163,14 @@ const App = () => {
         >
           Close
         </button>
+        {selectedDay && (
+          <div
+            className="text-primary"
+            style={{ float: "right", paddingRight: 50 }}
+          >
+            <small>Selected:</small> {moment(selectedDay).format("ddd, ll")}
+          </div>
+        )}
       </div>
     </div>
   );
