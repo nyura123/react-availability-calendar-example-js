@@ -113,23 +113,30 @@ const App = () => {
   );
 
   return (
-    <div style={{ width: 350 }}>
-      <AvailabilityCalendar
-        bookings={bookings}
-        providerTimeZone={providerTimeZoneForBlockOutHours}
-        moment={moment}
-        initialDate={now}
-        calMode={timeOfDayMode}
-        onAvailabilitySelected={onAvailabilitySelected}
-        onDaySelected={onDaySelected}
-        onCalRangeChange={onChangedCalRange}
-        blockOutPeriods={blockOutPeriods}
-        overrides={overrides}
-      />
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
+      <div style={{ maxWidth: 350, maxHeight: 520, overflowY: "auto" }}>
+        <AvailabilityCalendar
+          bookings={bookings}
+          providerTimeZone={providerTimeZoneForBlockOutHours}
+          moment={moment}
+          initialDate={now}
+          calMode={timeOfDayMode}
+          onAvailabilitySelected={onAvailabilitySelected}
+          onDaySelected={onDaySelected}
+          onCalRangeChange={onChangedCalRange}
+          blockOutPeriods={blockOutPeriods}
+          overrides={overrides}
+        />
+      </div>
       <div
         className="shadow"
         style={{
-          width: 350,
+          width: "100%",
+          maxWidth: 350,
           backgroundColor: "rgba(200, 200, 200, 1)",
           position: "absolute",
           ...(showCustomToolBar ? styleShow : styleHide),
