@@ -113,7 +113,7 @@ const App = () => {
         className: (p) => {
           const wasSelected = p.date.getTime() === lastSelectedDay.getTime();
           const additionalClassForWasSelected = wasSelected
-            ? " text-success font-weight-bold"
+            ? " font-weight-bold"
             : "";
           return (
             (p.isSelected
