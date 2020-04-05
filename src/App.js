@@ -17,8 +17,6 @@ import "./custom.scss";
 const msInHour = 60 * 60 * 1000;
 
 const App = () => {
-  const now = new Date();
-
   const [selectedAvails, setSelectedAvails] = useState(
     /*<{[key: number]: AvailabilityEvent | null;}>*/ {}
   );
@@ -26,6 +24,8 @@ const App = () => {
   // for optional custom toolbar
   const [showCustomToolBar, setShowCustomToolBar] = useState(false);
   const [timeOfDayMode, setTimeOfDayMode] = useState("evening"); //"allDay" | "morning" | "evening" | "noon";
+  const [initialDate, setInitialDate] = useState(new Date());
+  const [calVersion, setCalVersion] = useState(1);
 
   const onAvailabilitySelected = (a /*: AvailabilityEvent*/) => {
     console.log("Availability slot selected!: ", a);
@@ -40,9 +40,18 @@ const App = () => {
   // for optional custom toolbar
   const onDaySelected = (day /*: Date | null */) => {
     setShowCustomToolBar(!!day);
+
+    // to restore the next time calVersion upates
+    if (day) {
+      setInitialDate(day);
+    }
   };
   const handleCloseToolBar = () => {
     setShowCustomToolBar(false);
+
+    // remount calendar to close the day view
+    //(we're using version as "key" below)
+    setCalVersion((version) => version + 1);
   };
 
   const onChangedCalRange = (r /*: Range*/) =>
@@ -120,10 +129,11 @@ const App = () => {
     >
       <div style={{ maxWidth: 350, maxHeight: 520, overflowY: "auto" }}>
         <AvailabilityCalendar
+          key={"cal_v" + calVersion}
           bookings={bookings}
           providerTimeZone={providerTimeZoneForBlockOutHours}
           moment={moment}
-          initialDate={now}
+          initialDate={initialDate}
           calMode={timeOfDayMode}
           onAvailabilitySelected={onAvailabilitySelected}
           onDaySelected={onDaySelected}
